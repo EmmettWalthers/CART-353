@@ -1,9 +1,9 @@
 extends Node2D
 
 var tile_size := 360
-var move_speed := 1000
+var move_speed := 360
 var moving := false
-
+@onready var raycast: RayCast2D = $RayCast2D
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("move_up"):

@@ -8,3 +8,7 @@ script = ExtResource("1_g2els")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=50048954]
 texture = ExtResource("2_qhqgy")
+
+[node name="RayCast2D" type="RayCast2D" parent="." unique_id=192952593]
+exclude_parent = false
+target_position = Vector2(0, 300)
