@@ -47,15 +47,24 @@ layout_mode = 2
 text = "Planes Landed: 0"
 label_settings = SubResource("LabelSettings_jq8tk")
 
-[node name="LandButton" type="Button" parent="PanelContainer/VBoxContainer" unique_id=1422245625]
+[node name="PlanesList" type="VBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=2046871573]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "LAND PLANE"
+size_flags_vertical = 3
 
-[node name="PlaneLabel" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1170471183]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=1687853988]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="PlaneLabel" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1170471183]
 layout_mode = 2
 text = "Plane: A100 Fuel: 75"
 label_settings = SubResource("LabelSettings_6fhyq")
+
+[node name="LandButton" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1422245625]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = " LAND "
 
 [node name="ArrivalTimer" type="Timer" parent="." unique_id=513228676]
 wait_time = 2.0
@@ -64,6 +73,6 @@ autostart = true
 
 [node name="FuelTimer" type="Timer" parent="." unique_id=1552649564]
 
-[connection signal="pressed" from="PanelContainer/VBoxContainer/LandButton" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HBoxContainer/LandButton" to="." method="_on_button_pressed"]
 [connection signal="timeout" from="ArrivalTimer" to="." method="_on_arrival_timer_timeout"]
 [connection signal="timeout" from="FuelTimer" to="." method="_on_fuel_timer_timeout"]
