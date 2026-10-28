@@ -7,6 +7,7 @@ var planes_crashed := 0
 var plane_ready = false
 var runway_busy = false
 
+@onready var planes_crashed_label: Label = $PanelContainer/VBoxContainer/PlanesCrashed
 @onready var planes_counter: Label = $PanelContainer/VBoxContainer/PlanesCounter
 @onready var arrival_timer: Timer = $ArrivalTimer
 @onready var fuel_timer: Timer = $FuelTimer
@@ -20,15 +21,33 @@ func _on_arrival_timer_timeout() -> void:
 	
 func spawn_plane():
 	var plane_number = "A" + str(randi_range(100, 199))
+	
+	while planes.has(plane_number):
+		plane_number = "A" + str(randi_range(100, 199))
+		
 	var fuel_amount = randi_range(25, 50)
+	
 	planes[plane_number] = {"fuel": fuel_amount, "status": "Waiting"}
-	fuel_timer.start()
+	
+	if fuel_timer.is_stopped():
+		fuel_timer.start()
+		
 	update_planes_list()
 	
 func _on_fuel_timer_timeout() -> void:
-	if !planes.is_empty():
-		for plane in planes:
-			planes[plane]["fuel"] -= 1
+	var crashed_planes = []
+	
+	for plane in planes:
+		planes[plane]["fuel"] -= 1
+		
+		if planes[plane]["fuel"] <= 0:
+			crashed_planes.append(plane)
+		
+	for plane in crashed_planes:
+		planes.erase(plane)
+		planes_crashed += 1
+		planes_crashed_label.text = str("Planes Crashed: " + str(planes_crashed))
+	
 	update_planes_list()
 	
 func update_planes_list():
@@ -45,6 +64,7 @@ func update_planes_list():
 		
 		button.add_theme_font_size_override("font_size", 32)
 		button.text = " LAND "
+		button.disabled = runway_busy
 		button.pressed.connect(land_plane.bind(plane))
 		
 		hbox.add_theme_constant_override("separation", 20)
@@ -60,8 +80,8 @@ func land_plane(plane):
 		planes.erase(plane)
 		planes_landed += 1
 		planes_counter.text = str("Planes Landed: ") + str(planes_landed)
-		update_planes_list()
 		runway_busy = true
+		update_planes_list()
 		runway_label.text = str("Runway: Occupied")
 		runway_timer.start()
 

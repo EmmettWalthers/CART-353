@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://r5jomq7g5yho"]
+
+[ext_resource type="Script" uid="uid://ehvs8k082ymb" path="res://scripts/main.gd" id="1_o5qli"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3xd07"]
+font_size = 64
+
+[sub_resource type="LabelSettings" id="LabelSettings_jq8tk"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_dwbtc"]
+font_size = 32
+
+[node name="Main" type="Control" unique_id=957669973]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_o5qli")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=2008098195]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1624845101]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Title" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1011567989]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Airpot Simulator"
+label_settings = SubResource("LabelSettings_3xd07")
+horizontal_alignment = 1
+
+[node name="PlanesCounter" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1894083102]
+layout_mode = 2
+text = "Planes Landed: 0"
+label_settings = SubResource("LabelSettings_jq8tk")
+
+[node name="PlanesCrashed" type="Label" parent="PanelContainer/VBoxContainer" unique_id=129486051]
+layout_mode = 2
+text = "Planes Crashed: 0"
+label_settings = SubResource("LabelSettings_jq8tk")
+
+[node name="RunwayLabel" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1577425052]
+layout_mode = 2
+text = "Runway Status"
+label_settings = SubResource("LabelSettings_dwbtc")
+
+[node name="PlanesList" type="VBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=2046871573]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ArrivalTimer" type="Timer" parent="." unique_id=513228676]
+wait_time = 2.0
+autostart = true
+
+[node name="FuelTimer" type="Timer" parent="." unique_id=1552649564]
+
+[node name="RunwayTimer" type="Timer" parent="." unique_id=170898435]
+
+[connection signal="timeout" from="ArrivalTimer" to="." method="_on_arrival_timer_timeout"]
+[connection signal="timeout" from="FuelTimer" to="." method="_on_fuel_timer_timeout"]
+[connection signal="timeout" from="RunwayTimer" to="." method="_on_runway_timer_timeout"]
