@@ -1,15 +1,71 @@
 [gd_scene format=3 uid="uid://r5jomq7g5yho"]
 
-[ext_resource type="Script" uid="uid://ehvs8k082ymb" path="res://scripts/main.gd" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://ehvs8k082ymb" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="Texture2D" uid="uid://dk0i2alxuy3b1" path="res://assets/background.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://ck33si85fqapp" path="res://assets/Main Logo.png" id="3_logo"]
+[ext_resource type="Theme" uid="uid://btnnsjal7l1vp" path="res://assets/dashboard_theme.tres" id="4_theme"]
+[ext_resource type="Texture2D" uid="uid://c5ud7ol5fix2a" path="res://assets/Plane Land.png" id="5_land"]
+[ext_resource type="Texture2D" uid="uid://d0p5yl5kiysq6" path="res://assets/Plane Crash.png" id="6_crash"]
+[ext_resource type="Texture2D" uid="uid://c80eaqo865ors" path="res://assets/Plane Takeoff.png" id="7_takeoff"]
+[ext_resource type="Texture2D" uid="uid://chqv5cupact7a" path="res://assets/Plane Diaganol.png" id="9_plane"]
+[ext_resource type="Script" uid="uid://bg54q0is8beek" path="res://scripts/dashboard_visuals.gd" id="10_visuals"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_3xd07"]
-font_size = 64
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dashboard"]
+content_margin_left = 40.0
+content_margin_top = 28.0
+content_margin_right = 40.0
+content_margin_bottom = 24.0
+bg_color = Color(0.035, 0.065, 0.13, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.24, 0.43, 0.68, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+shadow_color = Color(0.01, 0.03, 0.09, 0.4)
+shadow_size = 24
+shadow_offset = Vector2(0, 12)
 
-[sub_resource type="LabelSettings" id="LabelSettings_jq8tk"]
-font_size = 32
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_logo"]
+content_margin_left = 28.0
+content_margin_top = 8.0
+content_margin_right = 28.0
+content_margin_bottom = 8.0
+bg_color = Color(0.03529412, 0.07058824, 0.13333334, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
-[sub_resource type="LabelSettings" id="LabelSettings_dwbtc"]
-font_size = 32
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stat"]
+content_margin_left = 68.0
+content_margin_top = 12.0
+content_margin_right = 20.0
+content_margin_bottom = 12.0
+bg_color = Color(0.065, 0.12, 0.21, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_list"]
+content_margin_left = 24.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.055, 0.095, 0.17, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.12, 0.22, 0.35, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [node name="Main" type="Control" unique_id=957669973]
 layout_mode = 3
@@ -18,48 +74,161 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-script = ExtResource("1_o5qli")
+theme = ExtResource("4_theme")
+script = ExtResource("1_main")
 
-[node name="PanelContainer" type="PanelContainer" parent="." unique_id=2008098195]
+[node name="Background" type="TextureRect" parent="." unique_id=1701264567]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="BackgroundShade" type="ColorRect" parent="." unique_id=381128336]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.025, 0.08, 0.2, 0.45)
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=2008098195]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.12
+anchor_top = 0.065
+anchor_right = 0.88
+anchor_bottom = 0.935
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dashboard")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1624845101]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+theme_override_constants/separation = 12
 
-[node name="Title" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1011567989]
+[node name="Header" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=1554879334]
 layout_mode = 2
-size_flags_horizontal = 4
-text = "Airpot Simulator"
-label_settings = SubResource("LabelSettings_3xd07")
-horizontal_alignment = 1
+theme_override_constants/separation = 32
+
+[node name="LogoPlate" type="PanelContainer" parent="PanelContainer/VBoxContainer/Header" unique_id=1614317424]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_logo")
+
+[node name="Logo" type="TextureRect" parent="PanelContainer/VBoxContainer/Header/LogoPlate" unique_id=850031397]
+custom_minimum_size = Vector2(440, 110)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_logo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HeaderText" type="VBoxContainer" parent="PanelContainer/VBoxContainer/Header" unique_id=122227660]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 8
+
+[node name="Eyebrow" type="Label" parent="PanelContainer/VBoxContainer/Header/HeaderText" unique_id=2009711034]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.44, 0.72, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "AIR TRAFFIC CONTROL"
+horizontal_alignment = 2
+
+[node name="Heading" type="Label" parent="PanelContainer/VBoxContainer/Header/HeaderText" unique_id=628267907]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Arrival dashboard"
+horizontal_alignment = 2
 
 [node name="PlanesCounter" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1894083102]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.92, 0.77, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_stat")
 text = "Planes Landed: 0"
-label_settings = SubResource("LabelSettings_jq8tk")
+
+[node name="Icon" type="TextureRect" parent="PanelContainer/VBoxContainer/PlanesCounter" unique_id=1860557354]
+modulate = Color(0.4, 0.92, 0.77, 1)
+layout_mode = 0
+offset_left = 20.0
+offset_top = 12.0
+offset_right = 48.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource("5_land")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="PlanesCrashed" type="Label" parent="PanelContainer/VBoxContainer" unique_id=129486051]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.56, 0.61, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_stat")
 text = "Planes Crashed: 0"
-label_settings = SubResource("LabelSettings_jq8tk")
+
+[node name="Icon" type="TextureRect" parent="PanelContainer/VBoxContainer/PlanesCrashed" unique_id=1953566497]
+modulate = Color(1, 0.56, 0.61, 1)
+layout_mode = 0
+offset_left = 20.0
+offset_top = 12.0
+offset_right = 48.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource("6_crash")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="RunwayLabel" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1577425052]
 layout_mode = 2
-text = "Runway Status"
-label_settings = SubResource("LabelSettings_dwbtc")
+theme_override_colors/font_color = Color(0.65, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_stat")
+text = "Runway: Available"
+
+[node name="Icon" type="TextureRect" parent="PanelContainer/VBoxContainer/RunwayLabel" unique_id=243940025]
+modulate = Color(0.65, 0.8, 1, 1)
+layout_mode = 0
+offset_left = 20.0
+offset_top = 12.0
+offset_right = 48.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource("7_takeoff")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="QueueHeader" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=1370689994]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Heading" type="Label" parent="PanelContainer/VBoxContainer/QueueHeader" unique_id=2139284366]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+text = "Incoming flights"
 
 [node name="PlanesList" type="VBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=2046871573]
 layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="FlightScroll" type="ScrollContainer" parent="PanelContainer/VBoxContainer" unique_id=438360281]
+layout_mode = 2
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_list")
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+script = ExtResource("10_visuals")
+plane_icon = ExtResource("9_plane")
+landing_icon = ExtResource("5_land")
 
 [node name="ArrivalTimer" type="Timer" parent="." unique_id=513228676]
 wait_time = 2.0
