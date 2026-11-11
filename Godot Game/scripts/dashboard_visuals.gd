@@ -17,7 +17,11 @@ func _prepare_flight_list() -> void:
 	var flight_list: VBoxContainer = get_node("../PlanesList")
 	# Main keeps a reference to this SAME VBoxContainer. Moving it into this
 	# scene's scroll area only changes its display, not how Main updates it.
-	flight_list.reparent(self)
+	# FlightPadding is an editor-visible MarginContainer: its right margin keeps
+	# LAND buttons 20 pixels away from the scrollbar, even when the list grows.
+	# Deleted decorative nodes (subtitle, fuel hint, footer) are not recreated
+	# or referenced here; this helper only handles the existing flight list.
+	flight_list.reparent($FlightPadding)
 	flight_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	flight_list.add_theme_constant_override("separation", 10)
 	flight_list.child_entered_tree.connect(_on_row_added)
