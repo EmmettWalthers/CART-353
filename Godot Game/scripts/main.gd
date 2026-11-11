@@ -2,10 +2,11 @@ extends Control
 
 var planes: Dictionary = {}
 	
-var planes_landed := 0
-var planes_crashed := 0
+var planes_landed = 0
+var planes_crashed = 0
 var plane_ready = false
 var runway_busy = false
+var planes_waiting = 0
 
 @onready var planes_crashed_label: Label = $PanelContainer/VBoxContainer/PlanesCrashed
 @onready var planes_counter: Label = $PanelContainer/VBoxContainer/PlanesCounter
@@ -18,21 +19,25 @@ var runway_busy = false
 func _on_arrival_timer_timeout() -> void:
 	spawn_plane()
 	plane_ready = true
+	arrival_timer.start(randf_range(5.0, 10.0))
 	
 func spawn_plane():
-	var plane_number = "A" + str(randi_range(100, 199))
-	
-	while planes.has(plane_number):
-		plane_number = "A" + str(randi_range(100, 199))
+	if planes_waiting < 5:
+		var plane_number = "A" + str(randi_range(100, 199))
 		
-	var fuel_amount = randi_range(25, 50)
-	
-	planes[plane_number] = {"fuel": fuel_amount, "status": "Waiting"}
-	
-	if fuel_timer.is_stopped():
-		fuel_timer.start()
+		while planes.has(plane_number):
+			plane_number = "A" + str(randi_range(100, 199))
+			
+		var fuel_amount = randi_range(25, 50)
 		
-	update_planes_list()
+		planes[plane_number] = {"fuel": fuel_amount, "status": "Waiting"}
+		
+		if fuel_timer.is_stopped():
+			fuel_timer.start()
+		
+		planes_waiting += 1
+			
+		update_planes_list()
 	
 func _on_fuel_timer_timeout() -> void:
 	var crashed_planes = []
@@ -79,6 +84,7 @@ func land_plane(plane):
 	else:
 		planes.erase(plane)
 		planes_landed += 1
+		planes_waiting -= 1
 		planes_counter.text = str("Planes Landed: ") + str(planes_landed)
 		runway_busy = true
 		update_planes_list()
